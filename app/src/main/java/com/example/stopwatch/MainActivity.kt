@@ -12,10 +12,11 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.stopwatch.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit  var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
+
     //lateinit var stopWatcher: Chronometer
     private var running = false
-    private var offset: Long =0
+    private var offset: Long = 0
     val OFFSET_KEY = "offset"
     val RUNNIN_KEY = "running"
     val BASE_KEY = "base"
@@ -24,58 +25,59 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view =binding.root
+        val view = binding.root
         setContentView(view)
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             offset = savedInstanceState.getLong(OFFSET_KEY)
             running = savedInstanceState.getBoolean(RUNNIN_KEY)
-            if(running){
+            if (running) {
                 binding.stopwatch.base = savedInstanceState.getLong(BASE_KEY)
                 binding.stopwatch.start()
-            }else setBaseTime()
+            } else setBaseTime()
         }
 
 
-            binding.bStart.setOnClickListener {
-            if(!running){
+        binding.bStart.setOnClickListener {
+            if (!running) {
                 setBaseTime()
                 binding.stopwatch.start()
-                running=true
+                running = true
             }
         }
 
         binding.bPause.setOnClickListener {
-            if(running){
+            if (running) {
                 saveOffset()
                 binding.stopwatch.stop()
-                running=false
+                running = false
             }
         }
 
-            binding.stopwatch.setOnClickListener {
-            offset=0
+        binding.stopwatch.setOnClickListener {
+            offset = 0
             setBaseTime()
         }
     }
 
-    fun saveOffset(){
-        offset=SystemClock.elapsedRealtime()-binding.stopwatch.base
-    }
-    fun setBaseTime(){
-        binding.stopwatch.base = SystemClock.elapsedRealtime()-offset
+    fun saveOffset() {
+        offset = SystemClock.elapsedRealtime() - binding.stopwatch.base
     }
 
-    override fun onSaveInstanceState(saveInstanceState: Bundle){
+    fun setBaseTime() {
+        binding.stopwatch.base = SystemClock.elapsedRealtime() - offset
+    }
+
+    override fun onSaveInstanceState(saveInstanceState: Bundle) {
         saveInstanceState.putLong(OFFSET_KEY, offset)
         saveInstanceState.putBoolean(RUNNIN_KEY, running)
-        saveInstanceState.putLong(BASE_KEY,binding.stopwatch.base)
+        saveInstanceState.putLong(BASE_KEY, binding.stopwatch.base)
         super.onSaveInstanceState(saveInstanceState)
     }
 
     override fun onStop() {
         super.onStop()
-        if(running){
+        if (running) {
             saveOffset()
             binding.stopwatch.stop()
         }
@@ -83,11 +85,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        if(running){
+        if (running) {
             setBaseTime()
             binding.stopwatch.start()
-            offset=0
-    }
+            offset = 0
+        }
     }
 
 
