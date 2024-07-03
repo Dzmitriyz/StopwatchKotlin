@@ -23,11 +23,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view =binding.root
         setContentView(view)
-        //stopWatcher = findViewById(R.id.stopwatch)
 
         if(savedInstanceState != null){
             offset = savedInstanceState.getLong(OFFSET_KEY)
@@ -38,7 +36,6 @@ class MainActivity : AppCompatActivity() {
             }else setBaseTime()
         }
 
-        //val startButton = findViewById<Button>(R.id.bStart)
 
             binding.bStart.setOnClickListener {
             if(!running){
@@ -48,7 +45,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-       // val pauseButton = findViewById<Button>(R.id.bPause)
         binding.bPause.setOnClickListener {
             if(running){
                 saveOffset()
@@ -57,7 +53,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //val resetButton = findViewById<Button>(R.id.bReset)
             binding.stopwatch.setOnClickListener {
             offset=0
             setBaseTime()
